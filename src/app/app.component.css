@@ -1,0 +1,25 @@
+/* Apply some styles to position the content area and keep it below the header and beside the sidenav */
+.content {
+  margin-left: 2px; /* This gives space for the sidenav */
+  margin-top: 6px;   /* This gives space for the header */
+  padding: 9px;
+  transition: margin-left 0.3s ease;
+  background-color: wheat;
+}
+
+.sidenav.open ~ .content {
+  margin-left: 250px; /* Shift the content when sidebar is open */
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #c1d2e4;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.footer .text-muted {
+  color: #6c757d;
+}
