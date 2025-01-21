@@ -6,9 +6,10 @@ import { ProductComponent } from './product/product.component';
 import { SalesComponent } from './sales/sales.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
-  // {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
   // {path: 'home', component:AppComponent},
   {path: 'customer', component:CustomerComponent},
   {path: 'inventory', component:InventoryComponent},
@@ -16,5 +17,6 @@ export const routes: Routes = [
   {path: 'sales', component:SalesComponent},
   {path: 'supplier', component:SupplierComponent},
   {path: 'auth', component:AuthenticationComponent},
+  {path: 'login', component:LoginComponent},
 
 ];
