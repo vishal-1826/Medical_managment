@@ -1,0 +1,47 @@
+<h1 mat-dialog-title style="text-align: center;">Add New Product</h1>
+<hr>
+<div mat-dialog-content>
+  <form [formGroup]="productForm">
+    <div class="row mb-2">
+      <div class="col-6 ">
+        <label for="name">Name:</label>
+        <input matInput formControlName="name" id="name">
+        <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="error">
+          Name is required.
+        </div>
+      </div>
+      <div class="col-6">
+        <label for="category">Category:</label>
+        <input matInput formControlName="category" id="category">
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-6">
+        <label for="price">Price:</label>
+        <input matInput formControlName="price" type="number" id="price">
+      </div>
+      <div class="col-6">
+        <label for="quantity">Quantity:</label>
+        <input matInput formControlName="quantity" type="number" id="quantity">
+      </div>
+    </div>
+
+
+
+    <div class="row mb-2">
+      <div class="col-6">
+        <label for="expirationDate">Expiration Date:</label>
+        <input matInput formControlName="expirationDate" type="date" id="expirationDate">
+      </div>
+      <div class="col-6">
+        <label for="supplier">Supplier:</label>
+        <input matInput formControlName="supplier" id="supplier">
+      </div>
+    </div>
+
+    <div class="buttoncls mt-2">
+      <button  mat-raised-button color="primary" (click)="onSave()">Save</button>
+      <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</div>

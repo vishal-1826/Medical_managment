@@ -3,7 +3,8 @@ import {AfterViewInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-
+import { AddProductDialogComponent } from '../add-product-dialog/add-product-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -32,22 +33,49 @@ export class ProductComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<any>(this.products);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  constructor(public dialog: MatDialog) { }
+
+  ngOnInit(): void {
+
+  }
+
+   addNewProduct(): void {
+      const dialogRef = this.dialog.open(AddProductDialogComponent, {
+        height: '400px',
+        width: '600px',
+        data: { name: '', category: '', price: 0, quantity: 0, expirationDate: '', supplier: '' },
+        autoFocus: false
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.dataSource.data = [...this.dataSource.data, result];
+          this.dataSource.paginator = this.paginator; // Update paginator
+        }
+      });
+    }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  constructor() { }
 
-  ngOnInit(): void {
-  }
   editElement(element: any): void {
     // Logic to edit the element
     console.log('Editing element:', element);
+
+      this.dataSource.data = this.dataSource.data.filter(product => product !== element);
+
     // You can add your edit logic here, for example, opening a dialog with a form to edit the element
   }
   deleteElement(element: any): void {
     // Logic to delete the element
-    console.log('Deleting element:', element);
+    console.log('Deleting element:', element.name);
+     if (confirm('Are you sure you want to delete ' + element.name + '?')) {
+      this.dataSource.data = this.dataSource.data.filter(product => product !== element);
+      this.dataSource.paginator = this.paginator; // Update paginator
     // You can add your delete logic here, for example, opening a dialog to confirm the deletion
   }
+
+}
 }
