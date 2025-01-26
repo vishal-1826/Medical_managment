@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { AuthService } from '../auth.service';
 import { Observable } from 'rxjs';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -15,7 +16,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
-  constructor(private fb: FormBuilder, private authService: AuthService,private http: HttpClient) {
+  constructor(private fb: FormBuilder, private authService: AuthService,private http: HttpClient,private router: Router) {
     // Initialize the form with validators
     this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
@@ -46,10 +47,12 @@ export class LoginComponent {
     this.authService.login(email, password).subscribe(
       (response) => {
         // If successful, store the token and navigate
-        this.authService.setCurrentUser(response, response.token);
+        localStorage.setItem('token', response.token);
+
         this.errorMessage = '';  // Clear any previous error
         // Optionally, navigate to a protected route
         console.log('Login successful:', response);
+        this.router.navigate(['/product']);
       },
       (error) => {
         // If error, display message
