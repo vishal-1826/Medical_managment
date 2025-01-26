@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { CustomerComponent } from './customer/customer.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ProductComponent } from './product/product.component';
@@ -18,5 +17,7 @@ export const routes: Routes = [
   {path: 'supplier', component:SupplierComponent},
   {path: 'auth', component:AuthenticationComponent},
   {path: 'login', component:LoginComponent},
+  {path: '**', redirectTo: '/login'},
+
 
 ];

@@ -1,33 +1,82 @@
 <div class="login-container">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <h2>Login</h2>
+  <ng-container *ngIf="isLogin; else signupFormTemplate">
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h2>Login</h2>
 
-    <div class="form-group">
-      <label for="email">email</label>
-      <input
-        id="email"
-        type="text"
-        formControlName="email"
-        class="form-control" />
-      <div *ngIf="email?.invalid && email?.touched" class="error-message">
-        email is required.
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-control"
+        />
+        <div *ngIf="email?.invalid && email?.touched" class="error-message">
+          Email is required.
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        formControlName="password"
-        class="form-control" />
-      <div *ngIf="password?.invalid && password?.touched" class="error-message">
-        Password is required.
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="form-control"
+        />
+        <div *ngIf="password?.invalid && password?.touched" class="error-message">
+          Password is required.
+        </div>
       </div>
+
+      <button type="submit" [disabled]="loginForm.invalid" class="btn-login">Login</button>
+      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    </form>
+
+    <!-- Toggle to Signup -->
+    <div class="signup">
+      <button (click)="toggleForm()">Don't have an account? Sign up here</button>
     </div>
+  </ng-container>
 
-    <button type="submit" [disabled]="loginForm.invalid">Login</button>
+  <!-- Signup Form -->
+  <ng-template #signupFormTemplate>
+    <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+      <h2>Sign Up</h2>
 
-    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-  </form>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-control"
+        />
+        <div *ngIf="signupEmail?.invalid && signupEmail?.touched" class="error-message">
+          Email is required and must be valid.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="form-control"
+        />
+        <div *ngIf="signupPassword?.invalid && signupPassword?.touched" class="error-message">
+          Password must be at least 6 characters.
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="signupForm.invalid" class="btn-login">Sign Up</button>
+
+      <!-- Toggle to Login -->
+      <div class="login">
+        <button (click)="toggleForm()">Already have an account? Login here</button>
+      </div>
+    </form>
+  </ng-template>
 </div>
