@@ -1,0 +1,16 @@
+.custom-bg {
+  background-color: rgb(177, 108, 29);
+
+}
+.custom-text-color {
+  color: white; /* Replace with your desired color */
+}
+.custom-text-color:hover {
+  color: black; /* Replace with your desired color */
+}
+.bg{
+  background-color: rgb(26, 18, 9);
+}
+.bg:hover{
+  background-color: rgb(245, 243, 241);
+}
