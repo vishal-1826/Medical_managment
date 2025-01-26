@@ -17,4 +17,12 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/api/login`, { email, password });
   }
+
+ addProduct(product: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/products`, product);
+  }
+
+  getProduct(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/products`);
+  }
 }

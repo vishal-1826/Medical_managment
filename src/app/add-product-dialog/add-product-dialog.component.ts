@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-add-product-dialog',
   templateUrl: './add-product-dialog.component.html',
@@ -20,7 +21,7 @@ export class AddProductDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<AddProductDialogComponent>,
-    private fb: FormBuilder,
+    private fb: FormBuilder,private AuthService:AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.productForm = this.fb.group({
@@ -39,8 +40,11 @@ export class AddProductDialogComponent {
 
   onSave(): void {
     if (this.productForm.valid) {
+      this.AuthService.addProduct(this.productForm.value).subscribe((data) =>
+        {
+          console.log('Data received:', data);
+        });
       this.dialogRef.close(this.productForm.value);
-    console.log(this.productForm.value);
     }
     else{
       console.log("Invalid form");

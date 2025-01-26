@@ -93,6 +93,29 @@ app.post('/api/login', async (req, res) => {
     return res.json({ token });
   });
 });
+//for product
+app.get('/products', (req, res) => {
+  db.query('SELECT * FROM product', (err, results) => {
+    if (err) {
+      console.error('Error fetching products:', err);
+      res.status(500).send('Error fetching products');
+      return;
+    }
+    res.json(results);  // Send the results as JSON
+  });
+});
+//new product
+app.post('/products', express.json(), (req, res) => {
+  const newProduct = req.body;
+  db.query('INSERT INTO product SET ?', newProduct, (err, result) => {
+    if (err) {
+      console.error('Error inserting product:', err);
+      res.status(500).send('Error inserting product');
+      return;
+    }
+    res.json({ message: 'New product added', id: result.insertId });
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
