@@ -8,12 +8,14 @@ import { AddProductDialogComponent } from '../add-product-dialog/add-product-dia
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { EditProductDialogComponent } from '../edit-product-dialog/edit-product-dialog.component';
+import { DatePipe,CommonModule } from '@angular/common';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
   standalone: true,
-  imports: [MatPaginatorModule, MatTableModule,MatIconModule]
+  imports: [MatPaginatorModule, MatTableModule,MatIconModule,CommonModule],
+  providers: [DatePipe]
 
 })
 
@@ -33,9 +35,9 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
 
   getproducts() {
-    console.log('getproducts method called');
+
     this.AuthService.getProduct().subscribe((data) => {
-      console.log('Data received:', data);
+
       this.product = data;
       this.dataSource.data = data;
       this.dataSource.paginator = this.paginator;
@@ -76,23 +78,34 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Update the data source with the edited element
-        const index = this.dataSource.data.findIndex(product => product.id === element.id);
-        if (index !== -1) {
-          this.dataSource.data[index] = result;
-          this.dataSource.data = [...this.dataSource.data]; // Refresh the data source
-        }
+        this.AuthService.updateProduct(element.id, result).subscribe(() => {
+          // Update the data source with the edited element
+          const index = this.dataSource.data.findIndex(product => product.id === element.id);
+          if (index !== -1) {
+            this.dataSource.data[index] = result;
+            this.dataSource.data = [...this.dataSource.data]; // Refresh the data source
+          }
+        }, (error) => {
+          console.error('Error updating product:', error);
+        });
       }
     });
   }
+  // deleteElement(element: any): void {
+  //   this.AuthService.deleteProduct(element.id).subscribe(() => {
+  //     this.dataSource.data = this.dataSource.data.filter(product => product.id !== element.id);
+  //   }, (error) => {
+  //     console.error('Error deleting product:', error);
+  //   });
+  // }
   deleteElement(element: any): void {
-    // Logic to delete the element
-    console.log('Deleting element:', element.name);
-     if (confirm('Are you sure you want to delete ' + element.name + '?')) {
-      this.dataSource.data = this.dataSource.data.filter(product => product !== element);
-      this.dataSource.paginator = this.paginator; // Update paginator
-    // You can add your delete logic here, for example, opening a dialog to confirm the deletion
+    const confirmed = window.confirm(`Are you sure you want to delete the product: ${element.name}?`);
+    if (confirmed) {
+      this.AuthService.deleteProduct(element.id).subscribe(() => {
+        this.dataSource.data = this.dataSource.data.filter(product => product.id !== element.id);
+      }, (error) => {
+        console.error('Error deleting product:', error);
+      });
+    }
   }
-
-}
 }

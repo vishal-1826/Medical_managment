@@ -4,11 +4,12 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { AuthService } from '../auth.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SpinnerComponent } from '../spinner/spinner.component';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule,SpinnerComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   providers: [AuthService],
@@ -18,12 +19,14 @@ export class LoginComponent {
   loginForm: FormGroup;
   signupForm: FormGroup;
   errorMessage: string = '';
+  loading=false;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private spinnerService: NgxSpinnerService
   ) {
     // Initialize Login Form
     this.loginForm = this.fb.group({
@@ -68,17 +71,20 @@ export class LoginComponent {
     }
 
     const { email, password } = this.loginForm.value;
-
+    this.loading = true;
+    this.spinnerService.show();
     this.authService.login(email, password).subscribe(
       (response) => {
         localStorage.setItem('token', response.token);
         this.errorMessage = ''; // Clear any error messages
-        console.log('Login successful:', response);
-        this.router.navigate(['/product']); // Navigate to a different route on success
+        this.router.navigate(['/product']);
+        this.loading = false;
+        this.spinnerService.hide();
       },
       (error) => {
         this.errorMessage = 'Invalid email or password.';
-        console.error('Login failed:', error);
+        this.loading = false;
+        this.spinnerService.hide();
       }
     );
   }

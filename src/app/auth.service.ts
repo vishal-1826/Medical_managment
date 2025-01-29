@@ -29,4 +29,16 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/api/products`);
   }
 
+  updateProduct(productId: number, product: any): Observable<any> {
+    // Convert the date format
+    if (product.expirationDate) {
+      const date = new Date(product.expirationDate);
+      product.expirationDate = date.toISOString().split('T')[0];
+    }
+    return this.http.put(`${this.apiUrl}/products/${productId}`, product);
+  }
+
+  deleteProduct(productId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/products/${productId}`);
+  }
 }

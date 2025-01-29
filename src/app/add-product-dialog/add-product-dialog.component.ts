@@ -42,7 +42,7 @@ export class AddProductDialogComponent {
     if (this.productForm.valid) {
       this.AuthService.addProduct(this.productForm.value).subscribe((data) =>
         {
-          console.log('Data received:', data);
+
         });
       this.dialogRef.close(this.productForm.value);
     }

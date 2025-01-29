@@ -97,7 +97,7 @@ app.post('/api/login', async (req, res) => {
 app.get('/api/products', (req, res) => {
   db.query('SELECT * FROM product', (err, results) => {
     if (err) {
-      console.error('Error fetching products:', err);
+
       res.status(500).send('Error fetching products');
       return;
     }
@@ -109,13 +109,73 @@ app.post('/products', express.json(), (req, res) => {
   const newProduct = req.body;
   db.query('INSERT INTO product SET ?', newProduct, (err, result) => {
     if (err) {
-      console.error('Error inserting product:', err);
+
       res.status(500).send('Error inserting product');
       return;
     }
     res.json({ message: 'New product added', id: result.insertId });
   });
 });
+
+app.put('/products/:id', (req, res) => {
+  const productId = req.params.id;
+  const updatedProduct = req.body;
+
+  // Convert the date format
+  if (updatedProduct.expirationDate) {
+    const date = new Date(updatedProduct.expirationDate);
+    updatedProduct.expirationDate = date.toISOString().split('T')[0];
+  }
+
+
+
+  // Check for undefined fields
+  for (const key in updatedProduct) {
+    if (updatedProduct[key] === undefined) {
+
+      res.status(400).send(`Error: ${key} is undefined`);
+      return;
+    }
+  }
+  if (!productId || productId === 'undefined') {
+
+    res.status(400).send('Error: productId is undefined');
+    return;
+  }
+
+  db.query('UPDATE product SET ? WHERE id = ?', [updatedProduct, productId], (err, result) => {
+    if (err) {
+
+      res.status(500).send('Error updating product');
+      return;
+    }
+    res.json({ message: 'Product updated successfully' });
+  });
+});
+
+// Delete product
+app.delete('/products/:id', (req, res) => {
+  const productId = req.params.id;
+
+  console.log('Product ID to delete:', productId);
+
+  // Ensure productId is defined
+  if (!productId || productId === 'undefined') {
+    console.error('Error: productId is undefined');
+    res.status(400).send('Error: productId is undefined');
+    return;
+  }
+
+  db.query('DELETE FROM product WHERE id = ?', [productId], (err, result) => {
+    if (err) {
+      console.error('Error deleting product:', err);
+      res.status(500).send('Error deleting product');
+      return;
+    }
+    res.json({ message: 'Product deleted successfully' });
+  });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
