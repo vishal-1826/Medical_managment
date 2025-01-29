@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AddProductDialogComponent } from '../add-product-dialog/add-product-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
+import { EditProductDialogComponent } from '../edit-product-dialog/edit-product-dialog.component';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -68,12 +69,21 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
 
   editElement(element: any): void {
-    // Logic to edit the element
-    console.log('Editing element:', element);
+    const dialogRef = this.dialog.open(EditProductDialogComponent, {
+      width: '600px',
+      data: element
+    });
 
-      this.dataSource.data = this.dataSource.data.filter(product => product !== element);
-
-    // You can add your edit logic here, for example, opening a dialog with a form to edit the element
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Update the data source with the edited element
+        const index = this.dataSource.data.findIndex(product => product.id === element.id);
+        if (index !== -1) {
+          this.dataSource.data[index] = result;
+          this.dataSource.data = [...this.dataSource.data]; // Refresh the data source
+        }
+      }
+    });
   }
   deleteElement(element: any): void {
     // Logic to delete the element

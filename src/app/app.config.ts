@@ -4,12 +4,13 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AuthInterceptor } from './auth.interceptor';
-
+import { AuthGuard } from './auth.guard';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()), // ✅ Ensures interceptors work
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } // ✅ Registers interceptor globally
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    , AuthGuard// ✅ Registers interceptor globally
   ]
 };

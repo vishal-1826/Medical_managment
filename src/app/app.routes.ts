@@ -6,13 +6,14 @@ import { SalesComponent } from './sales/sales.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   // {path: 'home', component:AppComponent},
   {path: 'customer', component:CustomerComponent},
   {path: 'inventory', component:InventoryComponent},
-  {path: 'product', component:ProductComponent},
+  {path: 'product', component:ProductComponent,canActivate: [AuthGuard]},
   {path: 'sales', component:SalesComponent},
   {path: 'supplier', component:SupplierComponent},
   {path: 'auth', component:AuthenticationComponent},

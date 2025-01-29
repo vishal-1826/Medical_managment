@@ -10,6 +10,9 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
   }
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token'); // Check if a token exists
+  }
   signin(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/api/register`, { email, password });
   }
@@ -25,4 +28,5 @@ export class AuthService {
   getProduct(): Observable<any> {
     return this.http.get(`${this.apiUrl}/api/products`);
   }
+
 }
