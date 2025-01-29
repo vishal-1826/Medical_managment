@@ -23,6 +23,6 @@ export class AuthService {
   }
 
   getProduct(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/products`);
+    return this.http.get(`${this.apiUrl}/api/products`);
   }
 }

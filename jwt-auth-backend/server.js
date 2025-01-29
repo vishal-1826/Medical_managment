@@ -94,7 +94,7 @@ app.post('/api/login', async (req, res) => {
   });
 });
 //for product
-app.get('/products', (req, res) => {
+app.get('/api/products', (req, res) => {
   db.query('SELECT * FROM product', (err, results) => {
     if (err) {
       console.error('Error fetching products:', err);
