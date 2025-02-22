@@ -16,7 +16,7 @@ export class SpinnerComponent {
     this.spinnerService.show();
   }
 
-  hideSpinner(): void {
-    this.spinnerService.hide();
-  }
+  // hideSpinner(): void {
+  //   this.spinnerService.hide();
+  // }
 }
