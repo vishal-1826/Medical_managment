@@ -9,5 +9,6 @@
     "accessibility.signals.onDebugBreak": {
         "sound": "off",
         "announcement": "off"
-    }
+    },
+    "accessibility.signalOptions.volume": 0
 }
