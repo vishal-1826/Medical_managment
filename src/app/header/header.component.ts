@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
     });
 
     observable.subscribe((value: string) => console.log(value));
+
   }
 
 
