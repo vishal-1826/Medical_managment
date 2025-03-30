@@ -93,6 +93,8 @@ app.post('/api/login', async (req, res) => {
     return res.json({ token });
   });
 });
+//for logout and remove the token from the local storage
+
 //for product
 app.get('/api/products', (req, res) => {
   db.query('SELECT * FROM product', (err, results) => {

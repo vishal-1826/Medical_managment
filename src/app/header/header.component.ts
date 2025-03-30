@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -9,6 +10,8 @@ import { Observable } from 'rxjs';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
       this.logObservable();
@@ -23,6 +26,11 @@ export class HeaderComponent implements OnInit {
 
     observable.subscribe((value: string) => console.log(value));
 
+  }
+
+  logout(): void {
+    console.log('Logging out');
+    this.authService.logout();
   }
 
 
