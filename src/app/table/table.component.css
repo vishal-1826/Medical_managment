@@ -1,0 +1,23 @@
+.table-container {
+  max-height: 400px;
+
+
+  margin-left: auto;
+}
+
+
+.mat-mdc-header-row{
+  background-color: whitesmoke; /* Change this to your desired color */
+  color: black; /* Change this to your desired text color */
+}
+
+
+/* Optional: Change the hover color for the rows */
+.mat-mdc-row:nth-child(odd) {
+  background-color: #f0f0f0; /* Change this to your desired hover color */
+}
+
+
+mat-header-row, mat-row {
+  display: flex; /* Ensure rows stretch properly */
+}
